@@ -12,7 +12,7 @@ using namespace std;
 
 int main(){
     Jeu j;
-    initPlateau(&j);
+    initJeu(&j);
     affichePlateau(&j);
     return 0;
 }
@@ -25,6 +25,18 @@ void afficheJeton(Jeton j){
     } else {
         cout << "B";
     }
+}
+
+void initJeu(Jeu *jeu){
+    Joueur *j1 = new Joueur;
+    Joueur *j2 = new Joueur;
+    cout << "Pseudo du joueur 1 : ";
+    cin >> j1->nom;
+    cout << "Pseudo du joueur 1 : ";
+    cin >> j2->nom;
+    jeu->joueur1 = *j1;
+    jeu->joueur2 = *j2;
+    initPlateau(jeu);
 }
 
 void initPlateau(Jeu *jeu){

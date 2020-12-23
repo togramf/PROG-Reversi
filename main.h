@@ -10,6 +10,7 @@ struct Jeton {
 struct Joueur {
     char nom[15];
     Jeton *liste;
+    Jeton *liste_possibilites; 
     int nbJetons;
 };
 
@@ -21,5 +22,6 @@ struct Jeu {
 
 int main();
 void afficheJeton(Jeton j);
+void initJeu(Jeu *jeu);
 void initPlateau(Jeu *jeu);
 void affichePlateau(Jeu *jeu);
