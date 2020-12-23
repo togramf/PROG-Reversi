@@ -3,6 +3,7 @@
 
 #include <iostream>
 using namespace std; 
+#include <string.h>
 
 #include "main.h"
 
@@ -14,6 +15,10 @@ int main(){
     Jeu j;
     initJeu(&j);
     affichePlateau(&j);
+    afficheScore(&j);
+    tour(&j, j.joueur1);
+    affichePlateau(&j);
+    afficheScore(&j);
     return 0;
 }
 
@@ -44,7 +49,7 @@ void affichePlateau(Jeu *jeu){
 }
 
 void afficheScore(Jeu *jeu) {
-    cout << "SCORE"<<endl;
+    cout << "SCORE : ";
     cout << jeu->joueur1.nbJetons <<" Noirs VS "<<jeu->joueur2.nbJetons <<" Blancs"<<endl;
 }
 
@@ -53,8 +58,10 @@ void initJeu(Jeu *jeu){
     Joueur *j2 = new Joueur;
     cout << "Pseudo du joueur 1 : ";
     cin >> j1->nom;
+    j1->couleur = NOIR;
     cout << "Pseudo du joueur 2 : ";
     cin >> j2->nom;
+    j2->couleur = BLANC;
     jeu->joueur1 = *j1;
     jeu->joueur2 = *j2;
     initPlateau(jeu);
@@ -70,8 +77,10 @@ void initPlateau(Jeu *jeu){
             if ((i==3 || i==4)&&(j==3 || j==4)){
                 if (j==i){
                     p->couleur = NOIR;
+                    jeu->joueur1.nbJetons+=1;
                 } else {
                     p->couleur = BLANC;
+                    jeu->joueur2.nbJetons+=1;
                 }
             } else {
                 p->couleur = VIDE;
@@ -81,3 +90,16 @@ void initPlateau(Jeu *jeu){
     }
 }
 
+void tour (Jeu *jeu, Joueur j){
+    //liste possible  
+    cout << "Tour du joueur "<<j.nom;
+    int ligne, colonne;
+    cout << "Choisi une case (ligne, colonne) : ";
+    cin >> ligne >> colonne; 
+    //vérif case choisie 
+    jeu->plateau[ligne-1][colonne-1]->couleur = j.couleur;
+}
+
+int gain (Jeu *jeu, int couleur, int ligne, int colonne){
+    
+}
