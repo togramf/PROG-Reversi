@@ -1,6 +1,8 @@
 //Reversi - Projet 1 de programmation - IMAC 1 (2020-2021)
 //par Théo Clément & Margot Fauchon 
 
+#define TAILLE_PLATEAU 8
+
 struct Jeton {
     int couleur;
     int ligne;
@@ -17,7 +19,7 @@ struct Joueur {
 struct Jeu {
     Joueur joueur1;
     Joueur joueur2;
-    Jeton *plateau[8][8];
+    Jeton *plateau[TAILLE_PLATEAU][TAILLE_PLATEAU];
 };
 
 int main();
@@ -25,3 +27,4 @@ void afficheJeton(Jeton j);
 void initJeu(Jeu *jeu);
 void initPlateau(Jeu *jeu);
 void affichePlateau(Jeu *jeu);
+void afficheScore(Jeu *jeu);

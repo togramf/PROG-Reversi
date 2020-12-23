@@ -27,12 +27,33 @@ void afficheJeton(Jeton j){
     }
 }
 
+void affichePlateau(Jeu *jeu){
+    for (int i = -1; i<TAILLE_PLATEAU; i++){
+        cout << i + 1;
+        for (int j = 0; j<TAILLE_PLATEAU; j++){
+            cout <<" | ";
+            if (i < 0)
+                cout << j+1;
+            else   
+                //cout << "X" <<" | ";
+                afficheJeton(*(jeu->plateau[i][j]));
+            
+        }
+        cout <<endl << "-----------------------------------"<<endl;
+    }
+}
+
+void afficheScore(Jeu *jeu) {
+    cout << "SCORE"<<endl;
+    cout << jeu->joueur1.nbJetons <<" Noirs VS "<<jeu->joueur2.nbJetons <<" Blancs"<<endl;
+}
+
 void initJeu(Jeu *jeu){
     Joueur *j1 = new Joueur;
     Joueur *j2 = new Joueur;
     cout << "Pseudo du joueur 1 : ";
     cin >> j1->nom;
-    cout << "Pseudo du joueur 1 : ";
+    cout << "Pseudo du joueur 2 : ";
     cin >> j2->nom;
     jeu->joueur1 = *j1;
     jeu->joueur2 = *j2;
@@ -40,8 +61,8 @@ void initJeu(Jeu *jeu){
 }
 
 void initPlateau(Jeu *jeu){
-    for (int i = 0; i<8; i++){
-        for (int j = 0; j<8; j++){
+    for (int i = 0; i<TAILLE_PLATEAU; i++){
+        for (int j = 0; j<TAILLE_PLATEAU; j++){
             Jeton *p;
             p = (Jeton *)malloc(sizeof(Jeton));
             p->ligne = i;
@@ -60,18 +81,3 @@ void initPlateau(Jeu *jeu){
     }
 }
 
-void affichePlateau(Jeu *jeu){
-    for (int i = -1; i<8; i++){
-        cout << i + 1;
-        for (int j = 0; j<8; j++){
-            cout <<" | ";
-            if (i < 0)
-                cout << j+1;
-            else   
-                //cout << "X" <<" | ";
-                afficheJeton(*(jeu->plateau[i][j]));
-            
-        }
-        cout <<endl << "-----------------------------------"<<endl;
-    }
-}
