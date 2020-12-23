@@ -29,4 +29,5 @@ void initJeu(Jeu *jeu);
 void initPlateau(Jeu *jeu);
 void affichePlateau(Jeu *jeu);
 void afficheScore(Jeu *jeu);
+void partie (Jeu *j);
 void tour (Jeu *jeu, Joueur j);

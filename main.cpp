@@ -16,9 +16,8 @@ int main(){
     initJeu(&j);
     affichePlateau(&j);
     afficheScore(&j);
-    tour(&j, j.joueur1);
-    affichePlateau(&j);
-    afficheScore(&j);
+    partie(&j);
+    
     return 0;
 }
 
@@ -90,6 +89,18 @@ void initPlateau(Jeu *jeu){
     }
 }
 
+void partie (Jeu *j){
+    affichePlateau(j);
+    afficheScore(j);
+
+    bool finPartie = false; 
+
+    while (!finPartie){
+        tour (j, j->joueur1);
+        tour (j, j->joueur2);
+    }
+}
+
 void tour (Jeu *jeu, Joueur j){
     //liste possible  
     cout << "Tour du joueur "<<j.nom;
@@ -98,8 +109,8 @@ void tour (Jeu *jeu, Joueur j){
     cin >> ligne >> colonne; 
     //vérif case choisie 
     jeu->plateau[ligne-1][colonne-1]->couleur = j.couleur;
+    j.nbJetons += 1;
+    affichePlateau(jeu);
+    afficheScore(jeu);
 }
 
-int gain (Jeu *jeu, int couleur, int ligne, int colonne){
-    
-}
