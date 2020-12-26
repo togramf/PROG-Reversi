@@ -15,31 +15,34 @@ Liste * initListe (){
 bool testPresenceJeton(Liste *l, int ligne, int colonne){
     for (int i=0; i<l->taille; i++){
         if (l->jeton[i].ligne == ligne && l->jeton[i].colonne == colonne){
-            cout<<"Jeton "<< ligne << " " <<colonne <<" present dans la liste"<<endl;
+            //cout<<"Jeton "<< ligne << " " <<colonne <<" present dans la liste"<<endl;
             return true;
         }
     }
-    cout <<"Jeton absent"<<endl;
+    //cout <<"Jeton absent"<<endl;
     return false;
 }
 
 void afficheListe(Liste *l){
     for (int i=0; i<l->taille; i++){
-        cout <<" ["<<l->jeton[i].ligne<<";"<<l->jeton[i].colonne<<"] ";
+        cout <<" ["<<l->jeton[i].ligne+1<<";"<<l->jeton[i].colonne+1<<"] ";
         cout << " ; ";
     }
+    cout <<endl;
 }
 
 void ajouteJeton (Liste *l, Jeton j){
     if (testPresenceJeton(l,j.ligne, j.colonne)){
-        cout<<"Jeton deja dans la liste"<<endl;
+        //cout<<"Jeton deja dans la liste"<<endl;
     } else if (l->taille < l->capacite) {
         l->jeton[l->taille]=j;
         l->taille ++;
-        cout << "Jeton ajoute"<<endl;
+        //cout << "Jeton ajoute"<<endl;
     }
 }
 
 void videListe (Liste *l){
     free(l->jeton);
+    l->jeton = (Jeton *) malloc(sizeof(Jeton)*l->capacite);
+    l->taille = 0;
 }
