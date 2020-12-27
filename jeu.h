@@ -46,6 +46,8 @@ int testGainDirection (Jeu *jeu, int couleur, int l, int c, int i, int g);
 int donneCouleurAdverse (int couleur);
 void chercheCasesPotentielles (Jeu *jeu, Joueur *joueur);
 void chercheCasesJouables(Jeu *jeu, Joueur *joueur);
+void retournePionsDirection(Jeu *jeu, int couleur, int l, int c, int i);
+void retournePions(Jeu *jeu, int couleur, int l, int c);
 void joue(Jeu *jeu, Joueur *j, int ligne, int colonne);
 void tour (Jeu *jeu, Joueur j);
 void partie ();

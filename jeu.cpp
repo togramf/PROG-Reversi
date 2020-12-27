@@ -129,7 +129,7 @@ bool testPionAdverseAutour (Jeu* jeu, int l, int c, int couleur){
 }
 
 bool testFinPartie(Jeu *jeu){
-    if (!testGainPossible(jeu, NOIR) || !testGainPossible(jeu, BLANC))
+    if (!testGainPossible(jeu, NOIR) && !testGainPossible(jeu, BLANC))
         return true; 
     else 
         return false;
@@ -211,10 +211,31 @@ void chercheCasesJouables(Jeu *jeu, Joueur *joueur){
     }
 }
 
+void retournePions(Jeu *jeu, int couleur, int l, int c){
+    for (int i=0; i<8; i++){
+        if (testGainDirection(jeu, couleur, l, c, i, 0)>0){
+            retournePionsDirection(jeu, couleur, l+directions[i][0], c+directions[i][1], i);
+        }
+    }
+}
+
+void retournePionsDirection(Jeu *jeu, int couleur, int l, int c, int i){
+    if (jeu->plateau[l][c]->couleur==donneCouleurAdverse(couleur)){
+        jeu->plateau[l][c]->couleur = couleur;
+        if (jeu->joueur1.couleur == couleur){
+            jeu->joueur1.nbJetons++;
+        } else {
+            jeu->joueur2.nbJetons++;
+        }
+        retournePionsDirection(jeu, couleur, l+directions[i][0], c+directions[i][1], i);
+
+    }    
+}
+
 void joue(Jeu *jeu, Joueur *j, int ligne, int colonne){
     jeu->plateau[ligne][colonne]->couleur = j->couleur;
     j->nbJetons += 1;
-    //retourneJetons (ligne, colonne, couleuradv)
+    retournePions(jeu, j->couleur,ligne,colonne);
 }
 
 void tour (Jeu *jeu, Joueur *j){
@@ -223,8 +244,10 @@ void tour (Jeu *jeu, Joueur *j){
     cout<<")"<<endl;
     //calcul liste potentielles
     chercheCasesPotentielles(jeu, j);
+    afficheListe(j->liste_cases_potentielles);
     //calcul liste jouables 
     chercheCasesJouables(jeu, j);
+    afficheListe(j->liste_cases_jouables);
 
     if (j->liste_cases_jouables->taille>0){
         int ligne, colonne;
