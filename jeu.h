@@ -29,7 +29,6 @@ void afficheCouleur (int couleur);
 void affichePlateau(Jeu *jeu);
 void afficheScore(Jeu *jeu);
 void afficheResultats(Jeu *j);
-void afficheCasesJouables(Joueur *joueur);
 
 /** TESTS */
 
@@ -44,6 +43,7 @@ int testGainDirection (Jeu *jeu, int couleur, int l, int c, int i, int g);
 /** DEROULEMENT DU JEU */
 
 int donneCouleurAdverse (int couleur);
+void calculScores(Jeu *jeu);
 void chercheCasesPotentielles (Jeu *jeu, Joueur *joueur);
 void chercheCasesJouables(Jeu *jeu, Joueur *joueur);
 void retournePionsDirection(Jeu *jeu, int couleur, int l, int c, int i);

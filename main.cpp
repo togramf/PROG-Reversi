@@ -11,7 +11,7 @@ using namespace std;
 
 int main(){
     
-    testUnitaire1();
+    partie();
     
     return 0;
 }
@@ -57,8 +57,8 @@ void testUnitaire1 (){
     cout<<testPionAdverseAutour(&j,5,5,BLANC);
     affichePlateau(&j);*/
 
-    //TEST TestGainPossible
-    j.plateau[4][4]->couleur = NOIR;
+    //TEST TestGainPossible OK 
+    /*j.plateau[4][4]->couleur = NOIR;
     j.plateau[6][6]->couleur = NOIR;
     affichePlateau(&j);
     for (int i = 3; i<=5; i++){
@@ -70,8 +70,16 @@ void testUnitaire1 (){
                 j.plateau[i][h]->couleur = VIDE;
             }
         }
-    }
-    
+    }*/
+
+    /*j.plateau[4][4]->couleur = NOIR;
+    j.plateau[5][3]->couleur = BLANC;
+    affichePlateau(&j);
+    testGainPossible(&j,BLANC);
+    testGainPossible(&j,NOIR);*/
+
+
+
 
     
 }
