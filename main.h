@@ -4,3 +4,4 @@
 #include "jeu.h"
 
 int main();
+void testUnitaire1 ();

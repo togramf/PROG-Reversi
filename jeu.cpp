@@ -56,6 +56,7 @@ void afficheCouleur (int couleur){
     else 
         cout << "VIDE";
 }
+
 void affichePlateau(Jeu *jeu){
     for (int i = -1; i<TAILLE_PLATEAU; i++){
         cout << i + 1;
@@ -139,6 +140,7 @@ bool testGainPossible (Jeu *jeu, int couleur){
     for (int i =0; i<TAILLE_PLATEAU; i++){
         for (int j=0; j<TAILLE_PLATEAU; j++){
             if (testGainCase(jeu, couleur, i, j)>0){
+                cout << "gain "<< testGainCase(jeu, couleur, i, j)<< " en "<<i<<" "<<j<<endl;
                 return true;
             }
         }
@@ -150,6 +152,7 @@ int testGainCase(Jeu *jeu, int couleur, int l, int c){
     int gain = 0;
     for (int i=0; i<8; i++){
         if (testPionAdverseDirection(jeu,couleur,l,c,i)){
+            cout << "Test gain ";
             gain += testGainDirection(jeu, couleur, l, c, i, 0);
         }
     }
@@ -157,23 +160,26 @@ int testGainCase(Jeu *jeu, int couleur, int l, int c){
 }
 
 int testGainDirection (Jeu *jeu, int couleur, int l, int c, int i, int g){
+    cout << "direction "<<i<<endl;
     int ligne = l + directions[i][0];
     int colonne = c + directions[i][1];
   
     if (g>=0){
-        if (jeu->plateau[ligne][colonne]->couleur == donneCouleurAdverse(couleur)){
+        if (testCaseExiste(ligne, colonne)){
+            if (jeu->plateau[ligne][colonne]->couleur == donneCouleurAdverse(couleur)){
             g += testGainDirection(jeu, couleur, ligne, colonne, i, 0);
             if (g>=0)
                 g++;
             return g;
-        } else if (jeu->plateau[ligne][colonne]->couleur == couleur){
-            return 0;
-        } else {
+            } else if (jeu->plateau[ligne][colonne]->couleur == couleur){
+                return 0;
+            } 
+        }else {
             return -1;
         }
-    } else {
-        return -1;
-    }
+    } 
+    return -1;
+    
 }
 
 /** DEROULEMENT DU JEU */ 
@@ -279,3 +285,4 @@ void partie (){
 
     afficheResultats(&j);
 }
+
