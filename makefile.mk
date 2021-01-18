@@ -2,7 +2,7 @@
 CC=g++
 CFLAGS=-Wall 
 
-Reversi.exe: main.o jeu.o liste.o jeton.o
+reversi.exe: main.o jeu.o liste.o jeton.o
 	$(CC) -o $@ $^
 	
 

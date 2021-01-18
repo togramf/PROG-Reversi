@@ -10,7 +10,7 @@ using namespace std;
 
 
 int main(){
-    
+    cout << "main";
     partie();
     
     return 0;
