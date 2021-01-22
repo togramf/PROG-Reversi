@@ -8,6 +8,7 @@ using namespace std;
 #define BLANC 2
 
 bool assistance = false;
+bool test = true; 
 
 struct Jeton {
     int couleur;
@@ -39,61 +40,51 @@ void afficheJeton(Jeton *j){
 /* LISTE */
 
 struct Liste{
-    Jeton *jeton; //pointeur sur premier jeton de la liste 
-    int taille;
-    int capacite;
+    int cases [60][2];
+    int taille = 0;
 };
 
 Liste * initListe ();
 bool testPresenceJeton(Liste *l, int ligne, int colonne);
 void afficheListe(Liste *l);
-void ajouteJeton (Liste *l, Jeton j);
+void ajouteJeton (Liste *l, int ligne, int colonne);
 void videListe (Liste *l);
 
 Liste * initListe (){
-    int cap = 60;
-    Liste *l = (Liste *)malloc(2*sizeof(int)+sizeof(Jeton)*cap);
-    if (l == 0){
-        cout << "Erreur alloc memoire"<<endl;
-    } else {
-        l->taille = 0;
-        l->capacite = cap;
-    }
+    Liste *l = new Liste;
+    l->taille = 0;
     return l;
 }
 
 bool testPresenceJeton(Liste *l, int ligne, int colonne){
     for (int i=0; i<l->taille; i++){
-        if (l->jeton[i].ligne == ligne && l->jeton[i].colonne == colonne){
-            //cout<<"Jeton "<< ligne << " " <<colonne <<" present dans la liste"<<endl;
+        if (l->cases[i][0]==ligne && l->cases[i][1]==colonne){
             return true;
         }
     }
-    //cout <<"Jeton absent"<<endl;
     return false;
 }
 
 void afficheListe(Liste *l){
     for (int i=0; i<l->taille; i++){
-        cout <<" ["<<l->jeton[i].ligne+1<<";"<<l->jeton[i].colonne+1<<"] ";
+        cout <<" ["<<l->cases[i][0]+1<<";"<<l->cases[i][1]+1<<"] ";
         cout << " ; ";
     }
     cout <<endl;
 }
 
-void ajouteJeton (Liste *l, Jeton j){
-    if (testPresenceJeton(l,j.ligne, j.colonne)){
+void ajouteJeton (Liste *l, int ligne, int colonne){
+    if (testPresenceJeton(l,ligne, colonne)){
         //cout<<"Jeton deja dans la liste"<<endl;
-    } else if (l->taille < l->capacite) {
-        l->jeton[l->taille]=j;
+    } else {
+        l->cases[l->taille][0]=ligne;
+        l->cases[l->taille][1]=colonne;
         l->taille ++;
         //cout << "Jeton ajoute"<<endl;
     }
 }
 
 void videListe (Liste *l){
-    free(l->jeton);
-    l->jeton = (Jeton *) malloc(sizeof(Jeton)*l->capacite);
     l->taille = 0;
 }
 
@@ -183,10 +174,8 @@ void initPlateau(Jeu *jeu){
             if ((i==3 || i==4)&&(j==3 || j==4)){
                 if (j==i){
                     jeu->plateau[i][j] = initJeton(NOIR,i,j);
-                    //cout << jeu->joueur1.nbJetons<<"jeton ++"<<endl;
                 } else {
                     jeu->plateau[i][j] = initJeton(BLANC,i,j);
-                    //cout << jeu->joueur2.nbJetons<<"jeton ++"<<endl;
                 }
             } else {
                 jeu->plateau[i][j] = initJeton(VIDE,i,j);
@@ -262,7 +251,8 @@ bool testPionAdverseDirection(Jeu *jeu, int couleur, int l, int c, int i){
 
     if (testCaseExiste(ligne,colonne)){
         if (jeu->plateau[ligne][colonne]->couleur == donneCouleurAdverse(couleur)){
-            //cout<<"couleur adverse en "<<ligne<<" "<<colonne;
+            if (test)
+                cout<<"couleur adverse en "<<ligne<<" "<<colonne;
             return true;
         }
     }      
@@ -272,8 +262,12 @@ bool testPionAdverseDirection(Jeu *jeu, int couleur, int l, int c, int i){
 /** Fonction qui teste la présence d'un pion de couleur adverse autour de la position (l,c) */
 bool testPionAdverseAutour (Jeu* jeu, int l, int c, int couleur){
     for (int i=0; i<8; i++){
-        if (testPionAdverseDirection(jeu,couleur,l,c,i))
+        if (testPionAdverseDirection(jeu,couleur,l,c,i)){
+            if (test) {
+                cout <<"Pion adverse present autour de "<<l<<" "<<c<<endl;
+            } 
             return true;
+        }
     }
     return false;
 }
@@ -289,7 +283,8 @@ bool testGainPossible (Jeu *jeu, int couleur){
     for (int i =0; i<TAILLE_PLATEAU; i++){
         for (int j=0; j<TAILLE_PLATEAU; j++){
             if (testGainCase(jeu, couleur, i, j)>0){
-                //cout << "gain "<< testGainCase(jeu, couleur, i, j)<< " en "<<i<<" "<<j<<endl;
+                if (test)
+                    cout << "gain possible par exemple : "<< testGainCase(jeu, couleur, i, j)<< " en "<<i<<" "<<j<<endl;
                 return true;
             }
         }
@@ -301,7 +296,9 @@ int testGainCase(Jeu *jeu, int couleur, int l, int c){
     int gain = 0;
     for (int i=0; i<8; i++){
         if (testPionAdverseDirection(jeu,couleur,l,c,i)){
-            //cout << "Test gain ";
+            if (test)
+                cout << "Test gain ";
+            
             gain += testGainDirection(jeu, couleur, l, c, i, 0);
         }
     }
@@ -309,26 +306,24 @@ int testGainCase(Jeu *jeu, int couleur, int l, int c){
 }
 
 int testGainDirection (Jeu *jeu, int couleur, int l, int c, int i, int g){
-    //cout << "direction "<<i<<endl;
+    if (test)
+        cout << "direction "<<i<<endl;
+    
     int ligne = l + directions[i][0];
     int colonne = c + directions[i][1];
   
     if (g>=0){
         if (testCaseExiste(ligne, colonne)){
             if (jeu->plateau[ligne][colonne]->couleur == donneCouleurAdverse(couleur)){
-            g += testGainDirection(jeu, couleur, ligne, colonne, i, 0);
-            if (g>=0)
-                g++;
-            return g;
+                g += testGainDirection(jeu, couleur, ligne, colonne, i, 0); //test dans la case suivante 
+                if (g>=0){
+                    return g+1;
             } else if (jeu->plateau[ligne][colonne]->couleur == couleur){
-                return 0;
-            } 
-        }else {
-            return -1;
+                return 1;
+            }
         }
     } 
     return -1;
-    
 }
 
 /** DEROULEMENT DU JEU */ 
@@ -363,7 +358,7 @@ void chercheCasesPotentielles (Jeu *jeu, Joueur *joueur){
             //cout << "test pour "<<i+1<<";"<<j+1 <<" "<<jeu->plateau[i][j]->couleur<<" ";
             if (jeu->plateau[i][j]->couleur==VIDE && testPionAdverseAutour(jeu,i,j,joueur->couleur)){
                 //cout << " - ok"<<endl;
-                ajouteJeton(l,*(jeu->plateau[i][j]));
+                ajouteJeton(l,i, j);
             } else {
                 //cout << " - no"<<endl;
             }
@@ -376,8 +371,8 @@ void chercheCasesPotentielles (Jeu *jeu, Joueur *joueur){
         afficheCouleur(joueur->couleur);
         cout<<endl;
         for (int i = 0; i<l->taille; i++){
-            cout <<" ["<<l->jeton[i].ligne+1<<";"<<l->jeton[i].colonne+1<<"] ";
-            int gain = testGainCase(jeu, joueur->couleur, l->jeton[i].ligne, l->jeton[i].colonne);
+            cout <<" ["<<l->cases[i][0]+1<<";"<<l->cases[i][1]+1<<"] ";
+            int gain = testGainCase(jeu, joueur->couleur, l->cases[i][0], l->cases[i][1]);
             cout << gain;
             cout <<" ; ";
         }
@@ -391,11 +386,10 @@ void chercheCasesJouables(Jeu *jeu, Joueur *joueur){
     Liste* l = joueur->liste_cases_jouables;
     videListe(l);
     for (int i=0; i<joueur->liste_cases_potentielles->taille; i++){
-        Jeton jeton = joueur->liste_cases_potentielles->jeton[i];
-        int ligne = jeton.ligne;
-        int colonne = jeton.colonne;
+        int ligne = joueur->liste_cases_potentielles->cases[i][0];
+        int colonne = joueur->liste_cases_potentielles->cases[i][1];
         if (testGainCase(jeu, joueur->couleur,ligne, colonne) >= 0){
-            ajouteJeton(l, jeton);
+            ajouteJeton(l, ligne, colonne );
         }
     }
 
@@ -405,7 +399,7 @@ void chercheCasesJouables(Jeu *jeu, Joueur *joueur){
         afficheCouleur(joueur->couleur);
         cout<<endl;
         for (int i = 0; i<l->taille; i++){
-            cout <<" ["<<l->jeton[i].ligne+1<<";"<<l->jeton[i].colonne+1<<"] ";
+            cout <<" ["<<l->cases[i][0]+1<<";"<<l->cases[i][1]+1<<"] ";
             cout <<" ; ";
         }
         cout <<endl;
@@ -445,7 +439,7 @@ void tour (Jeu *jeu, Joueur *j){
     if (j->liste_cases_jouables->taille>0){
         int ligne = 0, colonne = 0;
         do {
-            cout << "Choisi une case (ligne, colonne) : ";
+            cout << "Choisi une case (ligne_colonne) : ";
             cin >> ligne >> colonne; 
             ligne --;
             colonne --;
@@ -461,7 +455,7 @@ void tour (Jeu *jeu, Joueur *j){
 
 void partie (){
     cout << "LANCEMENT DE LA PARTIE"<<endl;
-
+    test = false; 
     char temp;
     cout << "Jouer en avec assistance ? (y/n)";
     cin >> temp;
@@ -483,8 +477,99 @@ void partie (){
 
 /* MAIN */
 
-int main(){
-    partie();
+void testUnitaire (){
+    Jeu j;
+    initJeu(&j);
+
+    //VIDE PLATEAU
+    j.plateau[3][3]->couleur=VIDE;
+    j.plateau[3][4]->couleur=VIDE;
+    j.plateau[4][3]->couleur=VIDE;
+    j.plateau[4][4]->couleur=VIDE;
+
+    //TEST PION AUTOUR > OK 
+    /*j.plateau[4][4]->couleur=NOIR;
+    affichePlateau(&j);
+    cout<<testPionAdverseAutour(&j,3,3,BLANC);
+    cout<<testPionAdverseAutour(&j,3,4,BLANC);
+    cout<<testPionAdverseAutour(&j,3,5,BLANC);
+    cout<<testPionAdverseAutour(&j,4,3,BLANC);
+    cout<<testPionAdverseAutour(&j,4,5,BLANC);
+    cout<<testPionAdverseAutour(&j,5,3,BLANC);
+    cout<<testPionAdverseAutour(&j,5,4,BLANC);
+    cout<<testPionAdverseAutour(&j,5,5,BLANC);*/
+
+    //TEST PION AUTOUR > OK 
+    /*j.plateau[0][0]->couleur=NOIR; // test direction1
+    cout<<testPionAdverseAutour(&j,1,1,BLANC);
+    j.plateau[0][3]->couleur=NOIR; // test direction2
+    cout<<testPionAdverseAutour(&j,1,3,BLANC);
+    j.plateau[0][6]->couleur=NOIR; // test direction3
+    cout<<testPionAdverseAutour(&j,1,5,BLANC);
+    j.plateau[3][0]->couleur=NOIR; 
+    cout<<testPionAdverseAutour(&j,3,1,BLANC);
+    j.plateau[3][3]->couleur=NOIR;
+    cout<<testPionAdverseAutour(&j,3,2,BLANC);
+    j.plateau[6][0]->couleur=NOIR;
+    cout<<testPionAdverseAutour(&j,5,1,BLANC);
+    j.plateau[6][3]->couleur=NOIR;
+    cout<<testPionAdverseAutour(&j,5,3,BLANC);
+    j.plateau[6][6]->couleur=NOIR;
+    cout<<testPionAdverseAutour(&j,5,5,BLANC);
+    affichePlateau(&j);*/
+
+    //TEST TestGainPossible OK 
+    /*j.plateau[4][4]->couleur = NOIR;
+    j.plateau[6][6]->couleur = NOIR;
+    affichePlateau(&j);
+    for (int i = 3; i<=5; i++){
+        for (int h =3; h<=5; h++){
+            cout << i <<" "<<h<<" : ";
+            if (j.plateau[i][h]->couleur == VIDE){
+                j.plateau[i][h]->couleur = BLANC;
+                testGainPossible(&j, BLANC);
+                j.plateau[i][h]->couleur = VIDE;
+            }
+        }
+    }*/
+
+    /*j.plateau[4][4]->couleur = NOIR;
+    j.plateau[5][3]->couleur = BLANC;
+    affichePlateau(&j);
+    testGainPossible(&j,BLANC);
+    testGainPossible(&j,NOIR);*/
     
+    //TEST RESOLUTION PROBLEME
+    j.plateau[3][3]->couleur = BLANC;
+    j.plateau[4][3]->couleur = BLANC;
+    j.plateau[4][4]->couleur = BLANC;
+    j.plateau[5][3]->couleur = BLANC;
+    j.plateau[5][4]->couleur = NOIR;
+    affichePlateau(&j);
+    assistance = true;
+    test = false;
+    //calcul liste potentielles
+    chercheCasesPotentielles(&j, &(j.joueur2));
+    //calcul liste jouables 
+    chercheCasesJouables(&j, &(j.joueur2));
+    test = true;
+    char continuer = 'y';
+    while (continuer =='y'){
+        int ligne, colonne;
+        cout << "Test Gain case pour les NOIRS (ligne, colonne) : ";
+        cin >> ligne >> colonne;
+        int gain = testGainCase(&j, j.joueur2.couleur, ligne, colonne);
+        cout <<gain<<endl;
+        cout << endl<< "Continuer ? (y/n)";
+        cin >> continuer;
+    }
+
+    
+    
+}
+
+int main(){
+    //partie();
+    testUnitaire();
     return 0;
 }

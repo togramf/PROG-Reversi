@@ -2,17 +2,17 @@
 CC=g++
 CFLAGS=-Wall 
 
-Reversi.exe: Main.o Jeu.o Liste.o Jeton.o
+Reversi.exe: main.o jeu.o liste.o jeton.o
 	$(CC) -o $@ $^
 	
 
-Jeu.o: Jeu.cpp Jeu.h Liste.h Jeton.h
+jeu.o: jeu.cpp jeu.h liste.h jeton.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-Liste.o: Liste.cpp Liste.h Jeton.h 
+liste.o: liste.cpp liste.h jeton.h 
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-Jeton.o: Jeton.cpp Jeton.h
+jeton.o: jeton.cpp jeton.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:

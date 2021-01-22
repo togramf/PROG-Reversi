@@ -1,13 +1,7 @@
-#include "Liste.h"
+#include "liste.h"
 #include <string.h>
 
 #define TAILLE_PLATEAU 8
-
-/** 8 directions autour d'une case, sur le plateau : 
- *  direction 0 | direction 1 | direction 2
- *  direction 3 | cible       | direction 4
- *  direction 5 | direction 6 | direction 7
-*/
 int const directions [8][2] = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
 
 struct Joueur {
@@ -40,9 +34,9 @@ void afficheResultats(Jeu *j);
 
 bool testCaseExiste(int ligne, int colonne);
 bool testPionAdverseDirection(Jeu *jeu, int couleur, int l, int c, int i);
-bool testPionAdverseAutour (Jeu* jeu, int couleur, int l, int c);
+bool testPionAdverseAutour (Jeu* jeu, int l, int c, int couleur);
 bool testFinPartie(Jeu *jeu);
-bool testGainPossible (Jeu *jeu, Joueur *joueur);
+bool testGainPossible (Jeu *jeu, int couleur);
 int testGainCase(Jeu *jeu, int couleur, int l, int c);
 int testGainDirection (Jeu *jeu, int couleur, int l, int c, int i, int g);
 
@@ -50,10 +44,10 @@ int testGainDirection (Jeu *jeu, int couleur, int l, int c, int i, int g);
 
 int donneCouleurAdverse (int couleur);
 void calculScores(Jeu *jeu);
-void chercheCasesPotentielles (Jeu *jeu, Joueur *joueur, bool aide);
-void chercheCasesJouables(Jeu *jeu, Joueur *joueur, bool aide);
+void chercheCasesPotentielles (Jeu *jeu, Joueur *joueur);
+void chercheCasesJouables(Jeu *jeu, Joueur *joueur);
 void retournePionsDirection(Jeu *jeu, int couleur, int l, int c, int i);
 void retournePions(Jeu *jeu, int couleur, int l, int c);
 void joue(Jeu *jeu, Joueur *j, int ligne, int colonne);
-void tour (Jeu *jeu, Joueur j, bool aide);
+void tour (Jeu *jeu, Joueur j);
 void partie ();

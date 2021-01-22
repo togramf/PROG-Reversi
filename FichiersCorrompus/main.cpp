@@ -5,11 +5,12 @@
 using namespace std; 
 
 
-#include "Main.h"
+#include "main.h"
 
 
 
 int main(){
+    cout << "main";
     partie();
     
     return 0;

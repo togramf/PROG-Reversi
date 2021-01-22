@@ -1,4 +1,5 @@
-#include "Jeton.h"
+
+#include "jeton.h"
 
 Jeton* initJeton(int couleur, int l, int c){
     Jeton* j = new Jeton;
@@ -9,11 +10,12 @@ Jeton* initJeton(int couleur, int l, int c){
 }
 
 void afficheJeton(Jeton *j){
-    if (j->couleur == VIDE)
+    if (j->couleur == VIDE){
         cout << " ";
-    else if (j->couleur == NOIR)
+    } else if (j->couleur == NOIR){
         cout << "N";
-    else
+    } else {
         cout << "B";
+    }
 }
 
