@@ -56,6 +56,8 @@ void afficheCouleur (int couleur){
 }
 
 void affichePlateau(Jeu *jeu){
+    system("cls");
+    //system("clear"); //Pour linux 
     for (int i = -1; i<TAILLE_PLATEAU; i++){
         cout << i + 1;
         for (int j = 0; j<TAILLE_PLATEAU; j++){
@@ -148,8 +150,6 @@ int testGainCase(Jeu *jeu, int couleur, int l, int c){
     int gain = 0;
     for (int i=0; i<8; i++){
         if (testPionAdverseDirection(jeu,couleur,l,c,i)){
-            //if (test)
-                //cout << "Test gain en "<<l<<" "<<c<<endl;
             if (testGainDirection(jeu, couleur, l, c, i, 0)>0)
                 gain += testGainDirection(jeu, couleur, l, c, i, 0);
         }
@@ -158,8 +158,6 @@ int testGainCase(Jeu *jeu, int couleur, int l, int c){
 }
 
 int testGainDirection (Jeu *jeu, int couleur, int l, int c, int i, int g){
-    
-        //cout <<"Test gain direction "<<i<<endl;
 
     int ligne = l + directions[i][0];
     int colonne = c + directions[i][1];
@@ -242,9 +240,8 @@ void chercheCasesJouables(Jeu *jeu, Joueur *joueur, bool aide){
 
 void retournePions(Jeu *jeu, int couleur, int l, int c){
     for (int i=0; i<8; i++){
-        if (testGainDirection(jeu, couleur, l, c, i, 0)>0){
+        if (testGainDirection(jeu, couleur, l, c, i, 0)>0)
             retournePionsDirection(jeu, couleur, l+directions[i][0], c+directions[i][1], i);
-        }
     }
 }
 
