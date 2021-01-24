@@ -28,9 +28,9 @@ void afficheJeton(Jeton *j){
     if (j->couleur == VIDE)
         cout << " ";
     else if (j->couleur == NOIR)
-        cout << "N";
+        cout << "X";
     else
-        cout << "B";
+        cout << "O";
 }
 
 /* LISTE */
@@ -185,16 +185,16 @@ void initPlateau(Jeu *jeu){
 
 void afficheCouleur (int couleur){
     if (couleur == NOIR)
-        cout <<"NOIR";
+        cout <<"(X) NOIR";
     else if (couleur == BLANC)
-        cout << "BLANC";
+        cout << "(O) BLANC";
     else 
         cout << "VIDE";
 }
 
 void affichePlateau(Jeu *jeu){
-    system("cls");
-    //system("clear"); //Pour linux 
+    //system("cls");
+    system("clear"); //Pour linux 
     for (int i = -1; i<TAILLE_PLATEAU; i++){
         cout << i + 1;
         for (int j = 0; j<TAILLE_PLATEAU; j++){
