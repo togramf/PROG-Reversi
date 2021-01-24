@@ -1,3 +1,6 @@
+#ifndef JETON_H
+#define JETON_H
+
 #include "Liste.h"
 #include <string.h>
 
@@ -57,3 +60,5 @@ void retournePions(Jeu *jeu, int couleur, int l, int c);
 void joue(Jeu *jeu, Joueur *j, int ligne, int colonne);
 void tour (Jeu *jeu, Joueur j, bool aide);
 void partie ();
+
+#endif

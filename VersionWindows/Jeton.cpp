@@ -12,8 +12,8 @@ void afficheJeton(Jeton *j){
     if (j->couleur == VIDE)
         cout << " ";
     else if (j->couleur == NOIR)
-        cout << "N";
+        cout << "X";
     else
-        cout << "B";
+        cout << "O";
 }
 

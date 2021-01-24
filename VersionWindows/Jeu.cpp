@@ -48,9 +48,9 @@ void initPlateau(Jeu *jeu){
 
 void afficheCouleur (int couleur){
     if (couleur == NOIR)
-        cout <<"NOIR";
+        cout <<"(X) NOIR";
     else if (couleur == BLANC)
-        cout << "BLANC";
+        cout << "(O) BLANC";
     else 
         cout << "VIDE";
 }
